@@ -1,0 +1,22 @@
+.calories__statistics {
+    
+}
+.info {
+    width: 50%;
+    padding: 40px;
+
+    &__text {
+        display: flex;
+    }
+
+    &__total-value {
+        flex: 0 1 40%;
+    }
+
+    &__goal {
+        flex: 0 1 60%;
+    }
+
+    &__chart {
+    }
+}
