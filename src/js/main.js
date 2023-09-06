@@ -2,7 +2,7 @@ import '../index.html';
 import '../assets/styles/style.scss';
 import variables from './variables';
 
-const { itemsList, addName, edit, goal, clearAll, total, removeItem, search, clearButton, addValue, submitButton, sortByCalories } = variables;
+const { itemsList, addName, bar, edit, chartGoal, chartValue, goal, clearAll, total, removeItem, search, clearButton, addValue, submitButton, sortByCalories } = variables;
 
 const array = [];
 
@@ -123,6 +123,9 @@ const searchByName = () => {
 const clearList = () => {
     itemsList.innerHTML = '';
     localStorage.clear();
+    localStorage.setItem('array', JSON.stringify([]));
+    localStorage.setItem('inputValue', 0);
+    bar.style.width = `0%`;
 }
 
 const caloriesCount = () => {
@@ -130,16 +133,48 @@ const caloriesCount = () => {
     const totalValue = localStorageData.reduce((sum, item) => sum += item.value, 0);
     localStorage.setItem('totalValue', totalValue);
     total.innerHTML = `Всего калорий: ${totalValue}`;
+    chartValue.innerHTML = `${totalValue}`;
+    countPercent()
 }
 
+// const setGoal = () => {
+//     const input = `<input type="number" class="edit-input"></input>`;
+//     goal.innerHTML = input;
+//     const newInput = document.querySelector('.edit-input');
+
+//     newInput.addEventListener('keyup', () => {
+//         localStorage.setItem('inputValue', newInput.value);
+//     });
+//     edit.innerHTML = `<button type='submit' class='set-goal'>Сохранить!</button>`;
+// }
+
 const setGoal = () => {
-    const input = `<input class="edit-input"></input>`;
-    goal.innerHTML = input;
+    goal.innerHTML = '';
+    const input = document.createElement('input');
+    goal.prepend(input);
+    input.classList.add('edit-input');
+
     const newInput = document.querySelector('.edit-input');
 
     newInput.addEventListener('keyup', () => {
         localStorage.setItem('inputValue', newInput.value);
     });
+
+    edit.innerHTML = `<button type='submit' class='set-goal'>Сохранить!</button>`;
+
+    const setButton = document.querySelector('.set-goal');
+
+    setButton.addEventListener('click', (e) => {
+        input.remove();
+        goal.innerHTML = JSON.parse(localStorage.getItem('inputValue'));
+    });
+}
+
+const countPercent = () => {
+    const start = JSON.parse(localStorage.getItem('totalValue'));
+    const end = JSON.parse(localStorage.getItem('inputValue'));
+
+    bar.style.width = `${100 + ((start - end) / end * 100)}%`;
 }
 
 submitButton.addEventListener('click', createItem);
@@ -151,12 +186,11 @@ edit.addEventListener('click', setGoal);
 document.addEventListener('DOMContentLoaded', () => {
     const value = JSON.parse(localStorage.getItem('totalValue'));
     total.innerHTML = `Всего калорий: ${value}`;
-});
-// document.addEventListener('click', (e) => {
-//     if (e.target.classList.contains('info__goal')) {
-//         const value = JSON.parse(localStorage.getItem('inputValue'));
-//         goal.innerHTML = `${value}`;
-//     }
-// })
+    chartValue.innerHTML = `${value}`;
+    const inputValue = JSON.parse(localStorage.getItem('inputValue'));
+    goal.innerHTML = `${inputValue}`;
+    chartGoal.innerHTML = `${inputValue}`;
+})
+
 
 renderItems();

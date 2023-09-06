@@ -11,4 +11,7 @@ export default {
     total: document.querySelector('.info__total-value'),
     goal: document.querySelector('.info__goal-span'),
     edit: document.querySelector('.info__edit'),
+    chartValue: document.querySelector('.chart__value'),
+    chartGoal: document.querySelector('.chart__goal'),
+    bar: document.querySelector('.bar'),
 }
