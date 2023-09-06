@@ -57,6 +57,7 @@
     }
 
     &__bar {
+        position: relative;
         width: 300px;
         height: 40px;
         background-color: rgba(255,255,255,0.2);
@@ -64,6 +65,7 @@
         padding: 15px;
         margin-bottom: 10px;
         text-align: center;
+        overflow: hidden;
         color: rgba(255,255,255,0.7);
     }
 
@@ -72,7 +74,10 @@
 }
 
 .bar {
-    background-color: rgba(250, 128, 114, 0.5);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(to right, rgba(250, 128, 114, 0.5), rgb(192, 55, 21));
     height: 40px;
     border-radius: 15px;
 }

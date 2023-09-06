@@ -14,4 +14,5 @@ export default {
     chartValue: document.querySelector('.chart__value'),
     chartGoal: document.querySelector('.chart__goal'),
     bar: document.querySelector('.bar'),
+    chartBar: document.querySelector('.bar-text'),
 }

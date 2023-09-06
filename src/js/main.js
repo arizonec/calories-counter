@@ -2,7 +2,7 @@ import '../index.html';
 import '../assets/styles/style.scss';
 import variables from './variables';
 
-const { itemsList, addName, bar, edit, chartGoal, chartValue, goal, clearAll, total, removeItem, search, clearButton, addValue, submitButton, sortByCalories } = variables;
+const { itemsList, addName, bar, edit, chartBar, chartGoal, chartValue, goal, clearAll, total, removeItem, search, clearButton, addValue, submitButton, sortByCalories } = variables;
 
 const array = [];
 
@@ -99,6 +99,7 @@ const deleteItem = ({ target }) => {
     }
 
     caloriesCount();
+    countPercent();
 }
 
 
@@ -125,7 +126,12 @@ const clearList = () => {
     localStorage.clear();
     localStorage.setItem('array', JSON.stringify([]));
     localStorage.setItem('inputValue', 0);
+    localStorage.setItem('totalValue', 0);
+    localStorage.setItem('percent', 0);
     bar.style.width = `0%`;
+    chartGoal.innerHTML = 0;
+    chartValue.innerHTML = 0;
+    total.innerHTML = `Всего калорий: 0`;
 }
 
 const caloriesCount = () => {
@@ -158,6 +164,7 @@ const setGoal = () => {
 
     newInput.addEventListener('keyup', () => {
         localStorage.setItem('inputValue', newInput.value);
+        chartGoal.innerHTML = `${newInput.value}`;
     });
 
     edit.innerHTML = `<button type='submit' class='set-goal'>Сохранить!</button>`;
@@ -174,7 +181,13 @@ const countPercent = () => {
     const start = JSON.parse(localStorage.getItem('totalValue'));
     const end = JSON.parse(localStorage.getItem('inputValue'));
 
-    bar.style.width = `${100 + ((start - end) / end * 100)}%`;
+    let percent = 100 + ((start - end) / end * 100);
+    if (isFinite(percent)) {
+        localStorage.setItem('percent', percent.toFixed(2));
+    }
+
+    chartBar.textContent = `${JSON.parse(localStorage.getItem('percent'))}%`;
+    bar.style.width = `${JSON.parse(localStorage.getItem('percent'))}%`;
 }
 
 submitButton.addEventListener('click', createItem);
