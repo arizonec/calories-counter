@@ -10,13 +10,35 @@
     }
 
     &__total-value {
+        display: flex;
+        align-items: center;
         flex: 0 1 40%;
     }
 
     &__goal {
         flex: 0 1 60%;
+        display: flex;
+        align-items: center;
+
+        span{
+            margin-left: 5px;
+        }
     }
 
     &__chart {
     }
+
+    &__edit{
+        margin-left: 20px;
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
+
+.edit-input {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
 }

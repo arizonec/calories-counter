@@ -1,16 +1,15 @@
 import '../index.html';
 import '../assets/styles/style.scss';
-import dataItems from '../js/itemsData';
 import variables from './variables';
 
-let data = [...dataItems]
+const { itemsList, addName, edit, goal, clearAll, total, removeItem, search, clearButton, addValue, submitButton, sortByCalories } = variables;
 
-const { itemsList, addName, clearAll, removeItem, search, clearButton, addValue, submitButton, sortByCalories } = variables;
-
-const renderItems = (data) => {
-    data.forEach(item => {
+const renderItems = () => {
+    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    itemsList.innerHTML = '';
+    localStorageData.forEach(item => {
         itemsList.innerHTML += renderItem(item);
-    })
+    });
 };
 
 
@@ -60,18 +59,18 @@ const renderItem = ({ id, title, value }) => {
 const createItem = () => {
     const name = addName.value;
     const value = Number(addValue.value);
-    const id = data.length + 1;
+    const id = Date.now();
+    //Вообще не самый лучший способ задания id, но думаю, что в этой задаче его достаточно, а так бы можно было использовать либу uuid!
+
 
     const newItem = {
         id: id,
         title: name,
         value: value,
     }
-
-    data = [...data, newItem];
-
-    itemsList.innerHTML += renderItem(newItem);
     localStorage.setItem(id, JSON.stringify(newItem));
+    itemsList.innerHTML += renderItem(newItem);
+    caloriesCount();
 }
 
 const deleteItem = ({ target }) => {
@@ -79,29 +78,50 @@ const deleteItem = ({ target }) => {
 
     if (target.classList.contains('item__remove')) {
         const parent = elem.closest('.item');
-        data = data.filter(item => Number(parent.dataset.id) !== item.id);
-        itemsList.innerHTML = '';
-        renderItems(data);
         localStorage.removeItem(parent.dataset.id);
+        renderItems();
     }
+
+    caloriesCount();
 }
 
 const byCalories = () => {
-    const sortedData = data.sort((a, b) => a.value - b.value);
+    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    const sortedData = localStorageData.sort((a, b) => a.value - b.value);
     itemsList.innerHTML = '';
-    renderItems(sortedData);
-}
+    sortedData.forEach(item => {
+        itemsList.innerHTML += renderItem(item);
+    });
+};
 
 const searchByName = () => {
-    const filteredData = data.filter(item => item.title.toLowerCase().slice(0, search.value.length) === search.value.toLowerCase());
+    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    const filteredData = localStorageData.filter(item => item.title.toLowerCase().slice(0, search.value.length) === search.value.toLowerCase());
     itemsList.innerHTML = '';
-    renderItems(filteredData);
+    filteredData.forEach(item => {
+        itemsList.innerHTML += renderItem(item);
+    });
 }
 
 const clearList = () => {
-    data = [];
     itemsList.innerHTML = '';
     localStorage.clear();
+}
+
+const caloriesCount = () => {
+    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    const totalValue = localStorageData.reduce((sum, item) => sum += item.value, 0);
+    total.innerHTML = `Всего калорий: ${totalValue}`;
+}
+
+const setGoal = () => {
+    const input = `<input class="edit-input"></input>`;
+    goal.innerHTML = input;
+    const newInput = document.querySelector('.edit-input');
+
+    newInput.addEventListener('keyup', () => {
+        localStorage.setItem('inputValue', newInput.value);
+    });
 }
 
 submitButton.addEventListener('click', createItem);
@@ -109,35 +129,7 @@ itemsList.addEventListener('click', deleteItem);
 sortByCalories.addEventListener('click', byCalories);
 search.addEventListener('keyup', searchByName);
 clearAll.addEventListener('click', clearList);
-
-renderItems(data);
-
-
-// let arr = [];
-// for (let i = 1; i < localStorage.length + 1; i++) {
-//     arr.push(JSON.parse(localStorage.getItem(i)));
-// }
-// console.log(arr);
+edit.addEventListener('click', setGoal);
 
 
-// const renderItems = (data) => {
-//     let itemsHTML = '';
-  
-//     if (localStorage.length > 0) {
-//       let arr = [];
-//       for (let i = 1; i < localStorage.length + 1; i++) {
-//         if (localStorage.getItem(i)) {
-//           arr.push(JSON.parse(localStorage.getItem(i)));
-//         }
-//       }
-//       arr.forEach(item => {
-//         itemsHTML += renderItem(item);
-//       });
-//     } else {
-//       data.forEach(item => {
-//         itemsHTML += renderItem(item);
-//       });
-//     }
-  
-//     itemsList.innerHTML = itemsHTML;
-//   };
+renderItems();

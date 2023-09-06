@@ -8,4 +8,7 @@ export default {
     sortByCalories: document.querySelector('.list__sort-btn'),
     search: document.querySelector('.list__filter-by'),
     clearAll: document.querySelector('.list__clear'),
+    total: document.querySelector('.info__total-value'),
+    goal: document.querySelector('.info__goal-span'),
+    edit: document.querySelector('.info__edit'),
 }
