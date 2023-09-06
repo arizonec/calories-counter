@@ -1,16 +1,21 @@
 import '../index.html';
 import '../assets/styles/style.scss';
-import dataItems from '../js/itemsData';
 import variables from './variables';
 
-let data = [...dataItems]
+const { itemsList, addName, edit, goal, clearAll, total, removeItem, search, clearButton, addValue, submitButton, sortByCalories } = variables;
 
-const { itemsList, addName, removeItem, clearButton, addValue, submitButton } = variables;
+const renderItems = () => {
+    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    itemsList.innerHTML = '';
+    localStorageData.forEach(item => {
+        itemsList.innerHTML += renderItem(item);
+    });
+};
+
 
 const renderItem = ({ id, title, value }) => {
-    const html = data.map(item =>
-        `
-    <div class="item" data-id="${item.id}">
+    return `
+    <div class="item" data-id="${id}">
                         <div class="item__img">
                             <svg fill="#ffffff" height="800px" width="800px" version="1.1" id="Icons"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -29,8 +34,8 @@ const renderItem = ({ id, title, value }) => {
                                 </g>
                             </svg>
                         </div>
-                        <div class="item__title">${item.title}</div>
-                        <div class="item__calories">${item.value} ккл</div>
+                        <div class="item__title">${title}</div>
+                        <div class="item__calories">${value} ккл</div>
                         <div class="item__remove">
                             <button class="remove-item"><svg width="800px" height="800px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
@@ -49,25 +54,23 @@ const renderItem = ({ id, title, value }) => {
                                 </svg></button>
                         </div>
                     </div>`
-    )
-
-    itemsList.insertAdjacentHTML('beforeend', html);
 }
 
 const createItem = () => {
     const name = addName.value;
     const value = Number(addValue.value);
-    const id = data.length + 1;
+    const id = Date.now();
+    //Вообще не самый лучший способ задания id, но думаю, что в этой задаче его достаточно, а так бы можно было использовать либу uuid!
+
 
     const newItem = {
         id: id,
         title: name,
         value: value,
     }
-
-    data = [...data, newItem];
-
+    localStorage.setItem(id, JSON.stringify(newItem));
     itemsList.innerHTML += renderItem(newItem);
+    caloriesCount();
 }
 
 const deleteItem = ({ target }) => {
@@ -75,14 +78,58 @@ const deleteItem = ({ target }) => {
 
     if (target.classList.contains('item__remove')) {
         const parent = elem.closest('.item');
-        let dataFiltered = data.filter(item => parent.dataset.id !== item.id)
-
-        renderItem(dataFiltered);
+        localStorage.removeItem(parent.dataset.id);
+        renderItems();
     }
+
+    caloriesCount();
+}
+
+const byCalories = () => {
+    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    const sortedData = localStorageData.sort((a, b) => a.value - b.value);
+    itemsList.innerHTML = '';
+    sortedData.forEach(item => {
+        itemsList.innerHTML += renderItem(item);
+    });
+};
+
+const searchByName = () => {
+    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    const filteredData = localStorageData.filter(item => item.title.toLowerCase().slice(0, search.value.length) === search.value.toLowerCase());
+    itemsList.innerHTML = '';
+    filteredData.forEach(item => {
+        itemsList.innerHTML += renderItem(item);
+    });
+}
+
+const clearList = () => {
+    itemsList.innerHTML = '';
+    localStorage.clear();
+}
+
+const caloriesCount = () => {
+    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    const totalValue = localStorageData.reduce((sum, item) => sum += item.value, 0);
+    total.innerHTML = `Всего калорий: ${totalValue}`;
+}
+
+const setGoal = () => {
+    const input = `<input class="edit-input"></input>`;
+    goal.innerHTML = input;
+    const newInput = document.querySelector('.edit-input');
+
+    newInput.addEventListener('keyup', () => {
+        localStorage.setItem('inputValue', newInput.value);
+    });
 }
 
 submitButton.addEventListener('click', createItem);
 itemsList.addEventListener('click', deleteItem);
+sortByCalories.addEventListener('click', byCalories);
+search.addEventListener('keyup', searchByName);
+clearAll.addEventListener('click', clearList);
+edit.addEventListener('click', setGoal);
 
 
-renderItem(data);
+renderItems();
