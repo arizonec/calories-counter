@@ -4,15 +4,20 @@ import variables from './variables';
 
 const { itemsList, addName, edit, goal, clearAll, total, removeItem, search, clearButton, addValue, submitButton, sortByCalories } = variables;
 
+const array = [];
+
 const renderItems = () => {
-    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
-    itemsList.innerHTML = '';
-    localStorageData.forEach(item => {
-        itemsList.innerHTML += renderItem(item);
-    });
+    // const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    if (localStorage.length === 0) {
+        localStorage.setItem('array', JSON.stringify(array));
+    } else {
+        const localStorageData = JSON.parse(localStorage.getItem('array'));
+        itemsList.innerHTML = '';
+        localStorageData.forEach(item => {
+            itemsList.innerHTML += renderItem(item);
+        });
+    }
 };
-
-
 const renderItem = ({ id, title, value }) => {
     return `
     <div class="item" data-id="${id}">
@@ -62,31 +67,43 @@ const createItem = () => {
     const id = Date.now();
     //Вообще не самый лучший способ задания id, но думаю, что в этой задаче его достаточно, а так бы можно было использовать либу uuid!
 
+    if (name.length === 0) {
+        alert('Введите название продукта!')
+    } else {
+        const newItem = {
+            id: id,
+            title: name,
+            value: value,
+        }
 
-    const newItem = {
-        id: id,
-        title: name,
-        value: value,
+        const localStorageData = JSON.parse(localStorage.getItem('array'));
+        localStorageData.push(newItem);
+
+        localStorage.setItem('array', JSON.stringify(localStorageData));
+        itemsList.innerHTML += renderItem(newItem);
+        caloriesCount();
     }
-    localStorage.setItem(id, JSON.stringify(newItem));
-    itemsList.innerHTML += renderItem(newItem);
-    caloriesCount();
 }
 
 const deleteItem = ({ target }) => {
     const elem = target;
 
     if (target.classList.contains('item__remove')) {
+        const localStorageData = JSON.parse(localStorage.getItem('array'));
         const parent = elem.closest('.item');
-        localStorage.removeItem(parent.dataset.id);
+
+        const deleted = localStorageData.filter((item) => Number(parent.dataset.id) !== item.id);
+
+        localStorage.setItem('array', JSON.stringify(deleted));
         renderItems();
     }
 
     caloriesCount();
 }
 
+
 const byCalories = () => {
-    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    const localStorageData = JSON.parse(localStorage.getItem('array'));
     const sortedData = localStorageData.sort((a, b) => a.value - b.value);
     itemsList.innerHTML = '';
     sortedData.forEach(item => {
@@ -95,7 +112,7 @@ const byCalories = () => {
 };
 
 const searchByName = () => {
-    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    const localStorageData = JSON.parse(localStorage.getItem('array'));
     const filteredData = localStorageData.filter(item => item.title.toLowerCase().slice(0, search.value.length) === search.value.toLowerCase());
     itemsList.innerHTML = '';
     filteredData.forEach(item => {
@@ -109,8 +126,9 @@ const clearList = () => {
 }
 
 const caloriesCount = () => {
-    const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+    const localStorageData = JSON.parse(localStorage.getItem('array'));
     const totalValue = localStorageData.reduce((sum, item) => sum += item.value, 0);
+    localStorage.setItem('totalValue', totalValue);
     total.innerHTML = `Всего калорий: ${totalValue}`;
 }
 
@@ -130,6 +148,15 @@ sortByCalories.addEventListener('click', byCalories);
 search.addEventListener('keyup', searchByName);
 clearAll.addEventListener('click', clearList);
 edit.addEventListener('click', setGoal);
-
+document.addEventListener('DOMContentLoaded', () => {
+    const value = JSON.parse(localStorage.getItem('totalValue'));
+    total.innerHTML = `Всего калорий: ${value}`;
+});
+// document.addEventListener('click', (e) => {
+//     if (e.target.classList.contains('info__goal')) {
+//         const value = JSON.parse(localStorage.getItem('inputValue'));
+//         goal.innerHTML = `${value}`;
+//     }
+// })
 
 renderItems();
