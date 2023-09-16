@@ -70,7 +70,6 @@ const renderItem = ({ id, title, value }) => {
 }
 
 const createItem = () => {
-
     if (goal.innerHTML != 0 && goal.innerHTML != null) {
         const name = addName.value;
         const value = Number(addValue.value);
@@ -296,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
     total.innerHTML = `Всего калорий: ${value}`;
     chartValue.innerHTML = `${value}`;
     const inputValue = JSON.parse(localStorage.getItem('inputValue'));
-    goal.innerHTML = `${inputValue}`;
+    goal.innerHTML = `0`;
     chartGoal.innerHTML = `${inputValue}`;
     bar.style.width = `${JSON.parse(localStorage.getItem('percent'))}%`;
     chartBar.textContent = `${JSON.parse(localStorage.getItem('percent'))}%`;
