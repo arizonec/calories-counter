@@ -6,7 +6,7 @@ const { itemsList, addName, bar, edit, chartBar, chartGoal, chartValue, goal, cl
 
 const array = [];
 const data = [];
-const localStorageData = JSON.parse(localStorage.getItem('arrayCalories'));
+const localStorageData = JSON.parse(localStorage.getItem('array'));
 if (localStorageData !== null) {
     localStorageData.forEach((item) => data.push({
         name: item.title,
@@ -17,9 +17,9 @@ if (localStorageData !== null) {
 const renderItems = () => {
     // const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
     if (localStorage.length === 0) {
-        localStorage.setItem('arrayCalories', JSON.stringify(array));
+        localStorage.setItem('array', JSON.stringify(array));
     } else {
-        const localStorageData = JSON.parse(localStorage.getItem('arrayCalories'));
+        const localStorageData = JSON.parse(localStorage.getItem('array'));
         itemsList.innerHTML = '';
         localStorageData.forEach(item => {
             itemsList.innerHTML += renderItem(item);
@@ -86,10 +86,10 @@ const createItem = () => {
                 value: value,
             }
 
-            const localStorageData = JSON.parse(localStorage.getItem('arrayCalories'));
+            const localStorageData = JSON.parse(localStorage.getItem('array'));
             localStorageData.push(newItem);
 
-            localStorage.setItem('arrayCalories', JSON.stringify(localStorageData));
+            localStorage.setItem('array', JSON.stringify(localStorageData));
             itemsList.innerHTML += renderItem(newItem);
             caloriesCount();
 
@@ -109,12 +109,12 @@ const deleteItem = ({ target }) => {
     const elem = target;
 
     if (target.classList.contains('remove-svg')) {
-        const localStorageData = JSON.parse(localStorage.getItem('arrayCalories'));
+        const localStorageData = JSON.parse(localStorage.getItem('array'));
         const parent = elem.closest('.item');
 
         const deleted = localStorageData.filter((item) => Number(parent.dataset.id) !== item.id);
 
-        localStorage.setItem('arrayCalories', JSON.stringify(deleted));
+        localStorage.setItem('array', JSON.stringify(deleted));
         renderItems();
     }
 
@@ -124,7 +124,7 @@ const deleteItem = ({ target }) => {
 
 
 const byCalories = () => {
-    const localStorageData = JSON.parse(localStorage.getItem('arrayCalories'));
+    const localStorageData = JSON.parse(localStorage.getItem('array'));
     const sortedData = localStorageData.sort((a, b) => a.value - b.value);
     itemsList.innerHTML = '';
     sortedData.forEach(item => {
@@ -133,7 +133,7 @@ const byCalories = () => {
 };
 
 const searchByName = () => {
-    const localStorageData = JSON.parse(localStorage.getItem('arrayCalories'));
+    const localStorageData = JSON.parse(localStorage.getItem('array'));
     const filteredData = localStorageData.filter(item => item.title.toLowerCase().slice(0, search.value.length) === search.value.toLowerCase());
     itemsList.innerHTML = '';
     filteredData.forEach(item => {
@@ -144,7 +144,7 @@ const searchByName = () => {
 const clearList = () => {
     itemsList.innerHTML = '';
     localStorage.clear();
-    localStorage.setItem('arrayCalories', JSON.stringify([]));
+    localStorage.setItem('array', JSON.stringify([]));
     localStorage.setItem('inputValue', 0);
     localStorage.setItem('totalValue', 0);
     localStorage.setItem('percent', 0);
@@ -156,7 +156,7 @@ const clearList = () => {
 }
 
 const caloriesCount = () => {
-    const localStorageData = JSON.parse(localStorage.getItem('arrayCalories'));
+    const localStorageData = JSON.parse(localStorage.getItem('array'));
     const totalValue = localStorageData.reduce((sum, item) => sum += item.value, 0);
     localStorage.setItem('totalValue', totalValue);
     total.innerHTML = `Всего калорий: ${totalValue}`;
