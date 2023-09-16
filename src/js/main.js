@@ -71,7 +71,7 @@ const renderItem = ({ id, title, value }) => {
 
 const createItem = () => {
 
-    if (goal.innerHTML != 0) {
+    if (goal.innerHTML != 0 && goal.innerHTML != null) {
         const name = addName.value;
         const value = Number(addValue.value);
         const id = Date.now();
