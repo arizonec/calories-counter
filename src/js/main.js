@@ -18,6 +18,9 @@ const renderItems = () => {
     // const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
     if (localStorage.length === 0) {
         localStorage.setItem('array', JSON.stringify(array));
+        localStorage.setItem('inputValue', 0);
+        localStorage.setItem('totalValue', 0);
+        localStorage.setItem('percent', 0);
     } else {
         const localStorageData = JSON.parse(localStorage.getItem('array'));
         itemsList.innerHTML = '';
@@ -295,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     total.innerHTML = `Всего калорий: ${value}`;
     chartValue.innerHTML = `${value}`;
     const inputValue = JSON.parse(localStorage.getItem('inputValue'));
-    goal.innerHTML = `0`;
+    goal.innerHTML = `${inputValue}`;
     chartGoal.innerHTML = `${inputValue}`;
     bar.style.width = `${JSON.parse(localStorage.getItem('percent'))}%`;
     chartBar.textContent = `${JSON.parse(localStorage.getItem('percent'))}%`;
