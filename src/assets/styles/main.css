@@ -5,14 +5,38 @@ body{
     padding: 0 40px;
     color: white;
     font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+}
+
+button {
+    color: white;
 }
 .container{
     height: 100%;
     max-width: 1200px;
     margin: 0 auto;
     border: 1px solid white;
+    border-radius: 50px;
 }
 
 .calories {
     display: flex;
+}
+
+.edit-input {
+    margin-right: 10px;
+    padding: 4px;
+    border-radius: 5px;
+}
+.set-goal {
+    
+}
+
+.canvas-container {
+    width: 100%;
+    overflow-x: scroll; 
+}
+
+.canvas {
+    /* // display: block; */
 }

@@ -1,4 +1,84 @@
 .item__add {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+.add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.add__name {
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+}
+.add__name::placeholder {
+    color: white;
+}
+.add__value {
+    width: 120px;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+}
+.add__value::placeholder {
+    color: white;
+}
+.add__button button {
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+}
+.add__button svg {
+    width: 25px;
+    height: 25px;
+}
+.item {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+.item__img {
+    flex: 0 1 10%;
+}
+.item__img svg {
+    width: 25px;
+    height: 25px;
+}
+.item__title {
+    flex: 0 1 40%;
+}
+.item__calories {
+    flex: 0 1 20%;
+}
+.item__remove {
+    flex: 0 1 30%;
+    display: flex;
+    justify-content: flex-end;
+}
+.item__remove button {
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+}
+.item__remove svg {
+    width: 25px;
+    height: 25px;
+}
+
+
+/* .item__add {
     background-color: rgba(255,255,255,0.2);
     border-radius: 15px;
     display: flex;
@@ -12,6 +92,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
 
     &__title {
     }
@@ -96,4 +177,4 @@
             height: 25px;
         }
     }
-}
+} */

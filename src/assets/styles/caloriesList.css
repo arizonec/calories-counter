@@ -1,0 +1,137 @@
+.list {
+    width: 50%;
+    padding: 40px;
+}
+.list__header {
+    display: flex;
+    margin-bottom: 20px;
+}
+.list__sort {
+    flex: 0 1 33.3%;
+    margin-right: 10px;
+}
+.list__sort:active {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.list__sort button {
+    background: transparent;
+    height: 27px;
+    border-radius: 5px;
+}
+.list__sort-btn {
+    width: 100%;
+    border: 1px solid white;
+}
+.list__filter {
+    flex: 1 1 33.3%;
+}
+.list__filter input {
+    background: transparent;
+    border: 1px solid white;
+}
+.list__filter-by {
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+.list__clear {
+    flex: 1 1 33.3%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.list__items {
+    height: 600px;
+    border-radius: 15px;
+    width: 100%;
+    overflow-y: scroll;
+}
+.clear__btn button {
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+}
+.clear__btn svg {
+    width: 25px;
+    height: 25px;
+}
+
+
+/* .calories__list {
+    
+}
+.list {
+    width: 50%;
+    padding: 40px;
+
+    &__header {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    &__sort {
+        flex: 0 1 33.3%;
+        margin-right: 10px;
+
+        &:active {
+            background-color: rgba(255,255,255,0.5);
+        }
+
+        button {
+            background: transparent;
+            height: 27px;
+            border-radius: 5px;
+        }
+
+        &-btn{
+            width: 100%;
+            border: 1px solid white;
+        }
+    }
+
+    &__filter {
+        flex: 1 1 33.3%;
+        input {
+            background: transparent;
+            border: 1px solid white;
+        }
+    }
+
+    &__filter-by {
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    &__clear {
+        flex: 1 1 33.3%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    &__items {
+        height: 600px;
+        border-radius: 15px;
+        width: 100%;
+        overflow-y: scroll;
+    }
+}
+.clear {
+
+    &__title {
+    }
+
+    &__btn {
+        button {
+            width: 25px;
+            height: 25px;
+            background-color: transparent;
+        }
+        svg {
+            width: 25px;
+            height: 25px;
+        }
+    }
+}
+ */

@@ -1,10 +1,18 @@
 import '../index.html';
-import '../assets/styles/style.scss';
+import '../assets/styles/style.css';
 import variables from './variables';
 
 const { itemsList, addName, bar, edit, chartBar, chartGoal, chartValue, goal, clearAll, total, removeItem, search, clearButton, addValue, submitButton, sortByCalories } = variables;
 
 const array = [];
+const data = [];
+const localStorageData = JSON.parse(localStorage.getItem('array'));
+if (localStorageData !== null) {
+    localStorageData.forEach((item) => data.push({
+        name: item.title,
+        cal: item.value,
+    }))
+}
 
 const renderItems = () => {
     // const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
@@ -42,7 +50,7 @@ const renderItem = ({ id, title, value }) => {
                         <div class="item__title">${title}</div>
                         <div class="item__calories">${value} ккл</div>
                         <div class="item__remove">
-                            <button class="remove-item"><svg width="800px" height="800px" viewBox="0 0 24 24" fill="none"
+                            <button class="remove-item"><svg class="remove-svg" width="800px" height="800px" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0" />
                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
@@ -62,33 +70,45 @@ const renderItem = ({ id, title, value }) => {
 }
 
 const createItem = () => {
-    const name = addName.value;
-    const value = Number(addValue.value);
-    const id = Date.now();
-    //Вообще не самый лучший способ задания id, но думаю, что в этой задаче его достаточно, а так бы можно было использовать либу uuid!
 
-    if (name.length === 0) {
-        alert('Введите название продукта!')
-    } else {
-        const newItem = {
-            id: id,
-            title: name,
-            value: value,
+    if (goal.innerHTML != 0) {
+        const name = addName.value;
+        const value = Number(addValue.value);
+        const id = Date.now();
+        //Вообще не самый лучший способ задания id, но думаю, что в этой задаче его достаточно, а так бы можно было использовать либу uuid!
+
+        if (name.length === 0) {
+            alert('Введите название продукта!')
+        } else {
+            const newItem = {
+                id: id,
+                title: name,
+                value: value,
+            }
+
+            const localStorageData = JSON.parse(localStorage.getItem('array'));
+            localStorageData.push(newItem);
+
+            localStorage.setItem('array', JSON.stringify(localStorageData));
+            itemsList.innerHTML += renderItem(newItem);
+            caloriesCount();
+
+            data.push({
+                name: name,
+                cal: value,
+            })
+            drawChart();
+            console.log(data)
         }
-
-        const localStorageData = JSON.parse(localStorage.getItem('array'));
-        localStorageData.push(newItem);
-
-        localStorage.setItem('array', JSON.stringify(localStorageData));
-        itemsList.innerHTML += renderItem(newItem);
-        caloriesCount();
+    } else {
+        alert('Установите цель!')
     }
 }
 
 const deleteItem = ({ target }) => {
     const elem = target;
 
-    if (target.classList.contains('item__remove')) {
+    if (target.classList.contains('remove-svg')) {
         const localStorageData = JSON.parse(localStorage.getItem('array'));
         const parent = elem.closest('.item');
 
@@ -132,6 +152,7 @@ const clearList = () => {
     chartGoal.innerHTML = 0;
     chartValue.innerHTML = 0;
     total.innerHTML = `Всего калорий: 0`;
+    chartBar.textContent = `0%`;
 }
 
 const caloriesCount = () => {
@@ -155,27 +176,69 @@ const caloriesCount = () => {
 // }
 
 const setGoal = () => {
+    const oldButton = edit;
+    const oldGoal = goal.innerHTML;
     goal.innerHTML = '';
     const input = document.createElement('input');
-    goal.prepend(input);
+    input.value = oldGoal;
     input.classList.add('edit-input');
+    goal.append(input);
+    edit.style.display = 'none';
+
+    const saveButton = document.createElement('button');
+    saveButton.innerHTML = 'Сохранить!';
+    saveButton.classList.add('set-goal');
+    goal.append(saveButton);
+
+
 
     const newInput = document.querySelector('.edit-input');
-
     newInput.addEventListener('keyup', () => {
         localStorage.setItem('inputValue', newInput.value);
         chartGoal.innerHTML = `${newInput.value}`;
     });
 
-    edit.innerHTML = `<button type='submit' class='set-goal'>Сохранить!</button>`;
-
-    const setButton = document.querySelector('.set-goal');
-
-    setButton.addEventListener('click', (e) => {
-        input.remove();
+    saveButton.addEventListener('click', (e) => {
+        edit.style.display = 'block';
+        saveButton.remove();
         goal.innerHTML = JSON.parse(localStorage.getItem('inputValue'));
+        input.innerHTML = `<div class="info__edit"><button class="set-goal">Сохранить!</button></div>`
     });
+
+
+    // const setButton = document.querySelector('.set-goal');
+
+    // setButton.addEventListener('click', (e) => {
+    //     goal.innerHTML = JSON.parse(localStorage.getItem('inputValue'));
+    //     input.innerHTML = `<div class="info__edit"><button class="set-goal">Сохранить!</button></div>`
+    // });
 }
+
+// const setGoal = () => {
+//     const oldGoal = goal.innerHTML;
+//     goal.innerHTML = '';
+//     const input = document.createElement('input');
+//     input.value = oldGoal;
+//     goal.prepend(input);
+//     input.classList.add('edit-input');
+
+//     const newInput = document.querySelector('.edit-input');
+
+//     newInput.addEventListener('keyup', () => {
+//         localStorage.setItem('inputValue', newInput.value);
+//         chartGoal.innerHTML = `${newInput.value}`;
+//     });
+
+//     edit.innerHTML = `<button class='set-goal'>Сохранить!</button>`;
+
+//     const setButton = document.querySelector('.set-goal');
+
+//     setButton.addEventListener('click', (e) => {
+
+//         goal.innerHTML = JSON.parse(localStorage.getItem('inputValue'));
+//         input.innerHTML = `<div class="info__edit"><button class="set-goal">Сохранить!</button></div>`
+//     });
+// }
 
 const countPercent = () => {
     const start = JSON.parse(localStorage.getItem('totalValue'));
@@ -188,6 +251,38 @@ const countPercent = () => {
 
     chartBar.textContent = `${JSON.parse(localStorage.getItem('percent'))}%`;
     bar.style.width = `${JSON.parse(localStorage.getItem('percent'))}%`;
+}
+
+const canvas = document.querySelector('.canvas');
+const ctx = canvas.getContext('2d');
+
+const chartWidth = 60;
+const chartHeight = 300;
+const barWidth = chartWidth / data.length;
+const barSpacing = 40;
+const maxValue = Math.max(...data.map((item) => item.cal));
+
+// Function to draw a single bar
+function drawBar(x, height, name) {
+    const barX = x * (barWidth + barSpacing);
+    const barY = chartHeight - height * (chartHeight / maxValue);
+
+    ctx.fillStyle = 'purple';
+    ctx.fillRect(barX + 20, barY, barWidth, height * (chartHeight / maxValue));
+
+    ctx.fillStyle = 'white';
+    ctx.textAlign = 'center';
+    ctx.fillText(height + ` kk`, barX + barWidth / 2 + 20, chartHeight + 20);
+    ctx.fillText(name, barX + barWidth / 2 + 20, chartHeight + 40);
+}
+
+
+function drawChart() {
+    ctx.clearRect(0, 0, chartWidth, chartHeight);
+
+    data.forEach((value, index) => {
+        drawBar(index, value.cal, value.name);
+    });
 }
 
 submitButton.addEventListener('click', createItem);
@@ -203,6 +298,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputValue = JSON.parse(localStorage.getItem('inputValue'));
     goal.innerHTML = `${inputValue}`;
     chartGoal.innerHTML = `${inputValue}`;
+    bar.style.width = `${JSON.parse(localStorage.getItem('percent'))}%`;
+    chartBar.textContent = `${JSON.parse(localStorage.getItem('percent'))}%`;
+    drawChart();
 })
 
 

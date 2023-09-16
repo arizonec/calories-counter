@@ -1,0 +1,544 @@
+*{padding: 0;margin: 0;border: 0;}
+*,*:before,*:after{-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+:focus,:active{outline: none;}
+a:focus,a:active{outline: none;}
+nav,footer,header,aside{display: block;}
+html,body{height:100%;width:100%;font-size:100%;line-height:1;font-size:14px;-ms-text-size-adjust:100%;-moz-text-size-adjust:100%;-webkit-text-size-adjust:100%;}
+input,button,textarea{font-family:inherit;}
+input::-ms-clear{display: none;}
+button{cursor: pointer;}
+button::-moz-focus-inner {padding:0;border:0;}
+a,a:visited{text-decoration: none;}
+a:hover{text-decoration: none;}
+ul li{list-style: none;}
+img{vertical-align: top;}
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: inherit;}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+
+
+
+.list {
+    width: 50%;
+    padding: 40px;
+}
+.list__header {
+    display: flex;
+    margin-bottom: 20px;
+}
+.list__sort {
+    flex: 0 1 33.3%;
+    margin-right: 10px;
+}
+.list__sort:active {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.list__sort button {
+    background: transparent;
+    height: 27px;
+    border-radius: 5px;
+}
+.list__sort-btn {
+    width: 100%;
+    border: 1px solid white;
+}
+.list__filter {
+    flex: 1 1 33.3%;
+}
+.list__filter input {
+    background: transparent;
+    border: 1px solid white;
+}
+.list__filter-by {
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+.list__clear {
+    flex: 1 1 33.3%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.list__items {
+    height: 600px;
+    border-radius: 15px;
+    width: 100%;
+    overflow-y: scroll;
+}
+.clear__btn button {
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+}
+.clear__btn svg {
+    width: 25px;
+    height: 25px;
+}
+
+
+/* .calories__list {
+    
+}
+.list {
+    width: 50%;
+    padding: 40px;
+
+    &__header {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    &__sort {
+        flex: 0 1 33.3%;
+        margin-right: 10px;
+
+        &:active {
+            background-color: rgba(255,255,255,0.5);
+        }
+
+        button {
+            background: transparent;
+            height: 27px;
+            border-radius: 5px;
+        }
+
+        &-btn{
+            width: 100%;
+            border: 1px solid white;
+        }
+    }
+
+    &__filter {
+        flex: 1 1 33.3%;
+        input {
+            background: transparent;
+            border: 1px solid white;
+        }
+    }
+
+    &__filter-by {
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    &__clear {
+        flex: 1 1 33.3%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    &__items {
+        height: 600px;
+        border-radius: 15px;
+        width: 100%;
+        overflow-y: scroll;
+    }
+}
+.clear {
+
+    &__title {
+    }
+
+    &__btn {
+        button {
+            width: 25px;
+            height: 25px;
+            background-color: transparent;
+        }
+        svg {
+            width: 25px;
+            height: 25px;
+        }
+    }
+}
+ */
+
+.item__add {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+.add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.add__name {
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+}
+.add__name::placeholder {
+    color: white;
+}
+.add__value {
+    width: 120px;
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+}
+.add__value::placeholder {
+    color: white;
+}
+.add__button button {
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+}
+.add__button svg {
+    width: 25px;
+    height: 25px;
+}
+.item {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+.item__img {
+    flex: 0 1 10%;
+}
+.item__img svg {
+    width: 25px;
+    height: 25px;
+}
+.item__title {
+    flex: 0 1 40%;
+}
+.item__calories {
+    flex: 0 1 20%;
+}
+.item__remove {
+    flex: 0 1 30%;
+    display: flex;
+    justify-content: flex-end;
+}
+.item__remove button {
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+}
+.item__remove svg {
+    width: 25px;
+    height: 25px;
+}
+
+
+/* .item__add {
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+
+}
+
+.add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+    &__title {
+    }
+
+    &__name {
+        background: transparent;
+        border: 1px solid white;
+        border-radius: 5px;
+        padding: 5px;
+        color: white;
+
+        &::placeholder {
+            color: white;
+        }
+    }
+
+    &__value {
+        width: 120px;
+        background: transparent;
+        border: 1px solid white;
+        border-radius: 5px;
+        padding: 5px;
+        color: white;
+        
+        &::placeholder {
+            color: white;
+        }
+    }
+
+    &__button {
+        button {
+            width: 25px;
+            height: 25px;
+            background-color: transparent;
+        }
+        svg {
+            width: 25px;
+            height: 25px;
+        }
+    }
+}
+
+
+
+.item {
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+
+    &__img {
+        flex: 0 1 10%;
+        svg {
+            width: 25px;
+            height: 25px;
+        }
+    }
+
+    &__title {
+        flex: 0 1 40%;
+    }
+
+    &__calories {
+        flex: 0 1 20%;
+    }
+
+    &__remove {
+        flex: 0 1 30%;
+        display: flex;
+        justify-content: flex-end;
+
+
+        button {
+            width: 25px;
+            height: 25px;
+            background-color: transparent;
+        }
+        svg {
+            width: 25px;
+            height: 25px;
+        }
+    }
+} */
+
+body{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    padding: 0 40px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+}
+
+button {
+    color: white;
+}
+.container{
+    height: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 1px solid white;
+    border-radius: 50px;
+}
+
+.calories {
+    display: flex;
+}
+
+.edit-input {
+    margin-right: 10px;
+    padding: 4px;
+    border-radius: 5px;
+}
+.set-goal {
+    
+}
+
+.canvas-container {
+    width: 100%;
+    overflow-x: scroll; 
+}
+
+.canvas {
+    /* // display: block; */
+}
+.info {
+    width: 50%;
+    padding: 40px;
+}
+.info__text {
+    display: flex;
+    margin-bottom: 25px;
+}
+.info__total-value {
+    display: flex;
+    align-items: center;
+    flex: 0 1 40%;
+}
+.info__goal {
+    flex: 0 1 60%;
+    display: flex;
+    align-items: center;
+}
+.info__goal span {
+    margin-left: 5px;
+}
+.info__edit {
+    margin-left: 20px;
+}
+.info__edit svg {
+    width: 20px;
+    height: 20px;
+}
+.edit-input {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+}
+.set-goal {
+    color: white;
+    border: 1px solid white;
+    padding: 4px;
+    border-radius: 5px;
+    background: transparent;
+}
+.chart {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 100px;
+}
+.chart__bar {
+    position: relative;
+    width: 300px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.7);
+}
+.bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(to right, rgba(250, 128, 114, 0.5), #c03715);
+    height: 40px;
+    border-radius: 15px;
+}
+
+
+/* .calories__statistics {
+    
+}
+.info {
+    width: 50%;
+    padding: 40px;
+
+    &__text {
+        display: flex;
+        margin-bottom: 25px;
+    }
+
+    &__total-value {
+        display: flex;
+        align-items: center;
+        flex: 0 1 40%;
+    }
+
+    &__goal {
+        flex: 0 1 60%;
+        display: flex;
+        align-items: center;
+
+        span{
+            margin-left: 5px;
+        }
+    }
+
+    &__edit{
+        margin-left: 20px;
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
+
+.edit-input {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.set-goal {
+    color: white;
+    border: 1px solid white;
+    padding: 4px;
+    border-radius: 5px;
+    background: transparent;
+}
+
+.chart {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 100px;
+
+    &__value {
+    }
+
+    &__bar {
+        position: relative;
+        width: 300px;
+        height: 40px;
+        background-color: rgba(255,255,255,0.2);
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 10px;
+        text-align: center;
+        overflow: hidden;
+        color: rgba(255,255,255,0.7);
+    }
+
+    &__goal {
+    }
+}
+
+.bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(to right, rgba(250, 128, 114, 0.5), rgb(192, 55, 21));
+    height: 40px;
+    border-radius: 15px;
+} */
+
+
