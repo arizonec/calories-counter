@@ -100,7 +100,6 @@ const createItem = () => {
                 cal: value,
             })
             drawChart();
-            console.log(data)
         }
     } else {
         alert('Установите цель!')
@@ -120,6 +119,7 @@ const deleteItem = ({ target }) => {
         renderItems();
     }
 
+    drawChart();
     caloriesCount();
     countPercent();
 }
@@ -260,11 +260,12 @@ const ctx = canvas.getContext('2d');
 
 const chartWidth = 60;
 const chartHeight = 300;
-const barWidth = chartWidth / data.length;
+const dataLength = data.length > 0 ? data.length : 1;
+const barWidth = chartWidth / dataLength;
 const barSpacing = 40;
 const maxValue = Math.max(...data.map((item) => item.cal));
 
-// Function to draw a single bar
+
 function drawBar(x, height, name) {
     const barX = x * (barWidth + barSpacing);
     const barY = chartHeight - height * (chartHeight / maxValue);
