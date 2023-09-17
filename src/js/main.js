@@ -253,6 +253,10 @@ const countPercent = () => {
 
     chartBar.textContent = `${JSON.parse(localStorage.getItem('percent'))}%`;
     bar.style.width = `${JSON.parse(localStorage.getItem('percent'))}%`;
+
+    if (percent >= 100) {
+        alert('Ваш дневной лимит калорий превышен! Хватит жрать!!!')
+    }
 }
 
 const canvas = document.querySelector('.canvas');
