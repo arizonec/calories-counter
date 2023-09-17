@@ -15,7 +15,7 @@ if (localStorageData !== null) {
 }
 
 const renderItems = () => {
-    // const localStorageData = Object.values(localStorage).map(item => JSON.parse(item));
+
     if (localStorage.length === 0) {
         localStorage.setItem('array', JSON.stringify(array));
         localStorage.setItem('inputValue', 0);
@@ -166,17 +166,6 @@ const caloriesCount = () => {
     countPercent()
 }
 
-// const setGoal = () => {
-//     const input = `<input type="number" class="edit-input"></input>`;
-//     goal.innerHTML = input;
-//     const newInput = document.querySelector('.edit-input');
-
-//     newInput.addEventListener('keyup', () => {
-//         localStorage.setItem('inputValue', newInput.value);
-//     });
-//     edit.innerHTML = `<button type='submit' class='set-goal'>Сохранить!</button>`;
-// }
-
 const setGoal = () => {
     const oldButton = edit;
     const oldGoal = goal.innerHTML;
@@ -208,39 +197,10 @@ const setGoal = () => {
     });
 
 
-    // const setButton = document.querySelector('.set-goal');
 
-    // setButton.addEventListener('click', (e) => {
-    //     goal.innerHTML = JSON.parse(localStorage.getItem('inputValue'));
-    //     input.innerHTML = `<div class="info__edit"><button class="set-goal">Сохранить!</button></div>`
-    // });
 }
 
-// const setGoal = () => {
-//     const oldGoal = goal.innerHTML;
-//     goal.innerHTML = '';
-//     const input = document.createElement('input');
-//     input.value = oldGoal;
-//     goal.prepend(input);
-//     input.classList.add('edit-input');
 
-//     const newInput = document.querySelector('.edit-input');
-
-//     newInput.addEventListener('keyup', () => {
-//         localStorage.setItem('inputValue', newInput.value);
-//         chartGoal.innerHTML = `${newInput.value}`;
-//     });
-
-//     edit.innerHTML = `<button class='set-goal'>Сохранить!</button>`;
-
-//     const setButton = document.querySelector('.set-goal');
-
-//     setButton.addEventListener('click', (e) => {
-
-//         goal.innerHTML = JSON.parse(localStorage.getItem('inputValue'));
-//         input.innerHTML = `<div class="info__edit"><button class="set-goal">Сохранить!</button></div>`
-//     });
-// }
 
 const countPercent = () => {
     const start = JSON.parse(localStorage.getItem('totalValue'));
